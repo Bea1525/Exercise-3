@@ -49,6 +49,8 @@ e)  Knit this exercise sheet. Some new files will automatically be
     can, but don't need to create a `.gitignore` file. Just do not
     commit these files manually.
 
+
+
 ## Exercise 2: Putting your Repository on GitHub (3 Points)
 
 For this task you will upload your solution to GitHub.
@@ -57,9 +59,14 @@ a)  Create a new repository on GitHub in your account named
     `exeRcise-sheet-3`. Make sure you create a **public repository** so
     we are able to see it for grading. Add the link to the repository
     below:
+    
+You can find the repository [here](https://github.com/Bea1525/Exercise-3.git)
+    
 b)  Push your code to this new repository by copying and executing the
     snippet on github listed under
     `…or push an existing repository from the command line`.
+    
+  
 c)  Regularly push your latest changes to GitHub again and especially do
     so when you are finished with this sheet.
 
