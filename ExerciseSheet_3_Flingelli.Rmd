@@ -73,6 +73,8 @@ c)  Regularly push your latest changes to GitHub again and especially do
     
 - I will do so
 
+
+
 ## Exercise 3: Pixar Films (4 Points)
 
 Download the `pixar_films` and `public_response` datasets from the
@@ -88,7 +90,25 @@ a)  Load the `pixar_films` dataset into R. Clean the dataset by removing
     the possible values and what do they mean? Create a factor variable
     for the film rating. Why is this appropriate?
 
-<!-- -->
+```{r}
+library(tidyverse)
+pix <- read_csv("data/pixar_films.csv")
+```
+
+```{r}
+pix <- pix %>% filter(!is.na(film))
+```
+
+- Looking in the data dictionary on GitHub, shows that the `film_rating` variable is an age recommendation based on a system by the Motion Picture Association. So I simply looked up the MPA's rating system online and apparently G stands for "General Audience" and PG means "Parental Guidance Suggested". So a movie labeled with G is meant to be for all ages and has no restrictions, whereas a movie labeled with PG may not be suitable for young children. 
+
+```{r}
+pix$film_rating <- as.factor(pix$film_rating)
+
+is.factor(pix$film_rating)
+```
+
+- The variable is now considered to be a factor variable. This is possible because the values in film_rating are categorized and divided into groups. Furthermore, the values only appear in a limited number (2 groups) and allthough they are categorical they can be represented by numbers for computational purposes.
+
 
 b)  Inspect the film titles manually. Which films form a film series? A
     film series can be identified by a common word in the titles of the
