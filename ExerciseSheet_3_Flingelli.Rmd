@@ -116,12 +116,43 @@ b)  Inspect the film titles manually. Which films form a film series? A
     e.g. "Despicable Me" and "Despicable Me 2". Create a dataframe which
     displays a list of the different series with the titles of the films
     and how many films belong to the series. Output the dataframe.
+    
+```{r}
+pix_series <- pix %>% filter(film == contains("1", "2", "3", "4"))
+```
+    
 
 c)  Load the `public_response` dataframe into R. Convert the
     `cinema_score` variable into a factor while ensuring the factor
     levels are defined in ascending order, from the lowest to the
     highest score. Combine `public_response` with the `pixar_films`
     dataset using an appropriate merge variable.
+    
+```{r}
+pub <- read_csv("data/public_response.csv")
+```
+   
+```{r}
+# Only execcute this chunk once (idk why but this keeps everything fine)
+pub <- pub %>% mutate(cinema_score = recode(cinema_score,
+                                            "A-" = 1,
+                                            "A" = 2,
+                                            "A+" = 3)) %>% 
+               filter(!is.na(cinema_score)) %>% 
+               arrange(cinema_score)
+```
+
+```{r}
+pub$cinema_score <- as.factor(pub$cinema_score)
+is.factor(pub$cinema_score)
+```
+
+- Note: I chose to recode the charakters to numbers, so it is easier to arrange them in an ascending order. (A- = 1, A = 2, A+ = 3)
+
+```{r}
+pub_pix_mix <- inner_join(pix, pub, by = "film")
+```
+
 
 d)  Choose one of the variables representing the public response and
     create a bar plot for the films belonging to a series. Here are the
