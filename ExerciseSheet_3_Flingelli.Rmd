@@ -235,6 +235,7 @@ alc %>% summarise(Wine = mean(`Wine (% total alcohol)`),
                   Beer = mean(`Beer (% total alcohol)`),
                   Spirits = mean (`Spirits (% total alcohol)`))
 ```
+
 ```{r}
 alc %>% arrange(desc(`Wine (% total alcohol)`))
 alc %>% arrange(desc(`Beer (% total alcohol)`))
@@ -255,26 +256,35 @@ f)  Create a meaningful plot / figure with the dataset. Make sure to
     correctly label the figure.
     
 ```{r}
-top_alc <- alc %>% pivot_longer(cols = c(`Wine (% total alcohol)`, 
-                                         `Beer (% total alcohol)`, 
-                                         `Spirits (% total alcohol)`), 
-                                names_to = "Beverage",
-                                values_to = "Percentage")
+top_alc <- alc %>% filter(if_all(contains("%"), ~ .x != 0))
 
-top_alc <- top_alc %>% group_by(Beverage) %>%
-                       slice_max(Percentage, n = 5) %>%
-                       ungroup() %>%
-                       arrange(Beverage, desc(Percentage)) 
+top_alc <- top_alc %>% group_by(Year) %>%
+                       summarise(Wine = mean(`Wine (% total alcohol)`),
+                                 Beer = mean(`Beer (% total alcohol)`),
+                                 Spirits = mean(`Spirits (% total alcohol)`)) %>%
+   pivot_longer(cols = -Year,
+                names_to = "Beverage",
+                values_to = "Percentage"
+  )
 ```
 
 ```{r graph1, fig.cap="Comparison of wine consumption for each country"}
 top_alc %>% ggplot(aes(
-  x = Percentage,
-  y = Entity,
-  fill = Beverage
-)) + geom_col(position = "dodge") +
-  facet_wrap(~ Beverage)
-  
+  x = Year, 
+  y = Percentage, 
+  color = Beverage)) +
+  geom_line(linewidth = 1) +  
+  geom_point(size = 2) +      
+  scale_color_manual(values = c("Wine" = "darkred", "Beer" = "darkorange", "Spirits" = "lightseagreen")) +
+  labs(
+    title = "Global trend of alcohol consumption",
+    subtitle = "mean of alcohol consumption percentages in 16 countries from 1890 to 2014",
+    x = "Year",
+    y = "Percentage",
+    color = "Beverage",
+    caption = "Source: GitHub (Alexander & Holmes, 2017)"
+  ) +
+  theme_minimal()
 ```
     
 
