@@ -117,7 +117,23 @@ b)  Inspect the film titles manually. Which films form a film series? A
     and how many films belong to the series. Output the dataframe.
     
 ```{r}
-pix_series <- pix %>% filter(film == contains("1", "2", "3", "4"))
+pix_series <- pix %>% mutate(series = case_when(
+      str_detect(film, "Toy Story") ~ "Toy Story",
+      str_detect(film, "Cars") ~ "Cars",
+      str_detect(film, "Incredibles") ~ "The Incredibles",
+      str_detect(film, "Finding") ~ "Finding Nemo/Dory",
+      str_detect(film, "Monsters") ~ "Monsters, Inc.",
+      TRUE ~ "no_series")) %>%
+  group_by(series) %>%
+  summarise(
+    films = paste(film, collapse = ", "),
+    count = n()) %>%
+  arrange(desc(count), series)
+
+
+pix_series <- pix_series %>% filter(count > 1, series != "no_series")
+
+pix_series
 ```
     
 
