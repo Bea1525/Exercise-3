@@ -171,7 +171,7 @@ pub_pix_mix <- pix %>% left_join(pub, by = "film") %>%
       str_detect(film, "Toy Story") ~ "Toy Story",
       str_detect(film, "Cars") ~ "Cars",
       str_detect(film, "Incredibles") ~ "The Incredibles",
-      str_detect(film, "Finding") ~ "Finding Nemo/Dory",
+      str_detect(film, "Finding") ~ "Finding Nemo",
       str_detect(film, "Monsters") ~ "Monsters, Inc.",
       TRUE ~ "no_series"
     )
@@ -198,23 +198,22 @@ d)  Choose one of the variables representing the public response and
 ```{r}
 pub_pix_mix %>% ggplot(aes(
   x = series,
-  y = rotten_tomatoes
-) + 
-  geom_bar(stat = "identity", position = "dodge") +
-  facet_wrap(~ film) + 
+  y = rotten_tomatoes,
+  fill = reorder(film, release_date)
+)) + 
+  geom_col(position = "dodge") +
   labs(
     title = "Reviews on Pixar film series",
     subtitle = "Rating by rotten tomatoes users on a score from 1 to 100",
     x = "Film Series",
     y = "Score",
-    caption = "Source: Data provided on Wikipedia (https://en.wikipedia.org/wiki/List_of_Pixar_films)"
+    caption = "Source: Data provided on Wikipedia (https://en.wikipedia.org/wiki/List_of_Pixar_films)",
+    fill = "Film"
   ) 
-  
-)
 ```
 
     
-- I notice ...
+- I notice that, except for the Cars series, Pixar movies which are part of a series and were released later on were usually less well reviewed. It seems like the sequels of a movie are never as well rated on Rotten Tomatoes as the original one.
 
 
 
