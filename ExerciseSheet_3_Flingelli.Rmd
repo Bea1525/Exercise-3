@@ -217,16 +217,66 @@ d)  Come up with a (research) question you want to answer with the data
     within one sentence. It should be a question that can be answered
     with the dataset and using R.
     
-- What are the globaly top 3 preferred beverages and are the any trends in their cosumption over the time?
+- What is the globally most preferred alcoholic beverage and to which time and country
+was the most of each alcoholic beverage consumed? 
 
 
 e)  Use R to answer your chosen question. Please limit your analysis to
     the functions and techniques we have covered so far in the course.
     You are **not expected** to use advanced statistical models or
     external packages which haven't been introduced.
+    
+```{r}
+alc <- read_csv("data/Alcohol consumption by type since 1890 (Alexander & Holmes, 2017).csv")
+```
+    
+```{r}
+alc %>% summarise(Wine = mean(`Wine (% total alcohol)`),
+                  Beer = mean(`Beer (% total alcohol)`),
+                  Spirits = mean (`Spirits (% total alcohol)`))
+```
+```{r}
+alc %>% arrange(desc(`Wine (% total alcohol)`))
+alc %>% arrange(desc(`Beer (% total alcohol)`))
+alc %>% arrange(desc(`Spirits (% total alcohol)`))
+```
+
+- On average, in most countries, about 42% of all beverages consumed are some kinds of beer. Wine is almost equally much consumed as spirits: about 28.1% of average wine consumption and about 28.5% of average spirits consumption.
+
+- The highest wine consumption was generally observed in Italy. In the year 1890, about 95% of all alcohol consumption was wine. This peak is repeatedly observed in 1929. Thirtyfive years later, a slight decrease can be seen with 87% of wine consumption. This being said, Italy takes the top 2 places in wine consumption, closely being followed by France in the year 1929.
+
+The highest beer consumption was observed in Belgium in 1929 and in the United Kingdom in 1964. Both share an average beer consumption of 81% of all alcoholic baverage consumption.
+
+Last but not least, the highest spirits consumption was observed in Japan in 1964. About 78% of all consumed alcoholic beverages were spirits. And Japan seems to keep this trend: in the year 2014, a similar number has been observed (74%). This is closely followed by the Netherlands with 71% in 1890.
+
+
 f)  Create a meaningful plot / figure with the dataset. Make sure to
     provide a figure caption (via the chunk options / Rmarkdown) and
     correctly label the figure.
+    
+```{r}
+top_alc <- alc %>% pivot_longer(cols = c(`Wine (% total alcohol)`, 
+                                         `Beer (% total alcohol)`, 
+                                         `Spirits (% total alcohol)`), 
+                                names_to = "Beverage",
+                                values_to = "Percentage")
+
+top_alc <- top_alc %>% group_by(Beverage) %>%
+                       slice_max(Percentage, n = 5) %>%
+                       ungroup() %>%
+                       arrange(Beverage, desc(Percentage)) 
+```
+
+```{r graph1, fig.cap="Comparison of wine consumption for each country"}
+top_alc %>% ggplot(aes(
+  x = Percentage,
+  y = Entity,
+  fill = Beverage
+)) + geom_col(position = "dodge") +
+  facet_wrap(~ Beverage)
+  
+```
+    
 
 ## Final Note
 
