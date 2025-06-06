@@ -71,7 +71,6 @@ b)  Push your code to this new repository by copying and executing the
 c)  Regularly push your latest changes to GitHub again and especially do
     so when you are finished with this sheet.
     
-- I will do so
 
 
 
@@ -190,6 +189,8 @@ pub_pix_mix %>% ggplot(aes(
     
 - I notice ...
 
+
+
 ## Exercise 4: Open Analysis (4 points)
 
 This exercise is a bit more open-ended. You can choose any dataset from
@@ -215,6 +216,10 @@ d)  Come up with a (research) question you want to answer with the data
     and briefly explain why you believe this is an interesting question
     within one sentence. It should be a question that can be answered
     with the dataset and using R.
+    
+- What are the globaly top 3 preferred beverages and are the any trends in their cosumption over the time?
+
+
 e)  Use R to answer your chosen question. Please limit your analysis to
     the functions and techniques we have covered so far in the course.
     You are **not expected** to use advanced statistical models or
