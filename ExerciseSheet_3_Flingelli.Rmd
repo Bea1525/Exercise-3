@@ -126,7 +126,7 @@ pix_series <- pix %>% mutate(series = case_when(
       TRUE ~ "no_series")) %>%
   group_by(series) %>%
   summarise(
-    films = paste(film, collapse = ", "),
+    film = paste(film, collapse = ", "),
     count = n()) %>%
   arrange(desc(count), series)
 
@@ -165,7 +165,18 @@ is.factor(pub$cinema_score)
 - Note: I chose to recode the charakters to numbers, so it is easier to arrange them in an ascending order. (A- = 1, A = 2, A+ = 3)
 
 ```{r}
-pub_pix_mix <- inner_join(pix, pub, by = "film")
+pub_pix_mix <- pix %>% left_join(pub, by = "film") %>% 
+  mutate(
+    series = case_when(
+      str_detect(film, "Toy Story") ~ "Toy Story",
+      str_detect(film, "Cars") ~ "Cars",
+      str_detect(film, "Incredibles") ~ "The Incredibles",
+      str_detect(film, "Finding") ~ "Finding Nemo/Dory",
+      str_detect(film, "Monsters") ~ "Monsters, Inc.",
+      TRUE ~ "no_series"
+    )
+  ) %>% 
+  filter(series != "no_series") 
 ```
 
 
