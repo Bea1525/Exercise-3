@@ -195,7 +195,7 @@ d)  Choose one of the variables representing the public response and
     What do you notice when comparing the scores of the films in a
     series? Do you see any patterns?
     
-```{r}
+```{r graph1, fig.cap = "Reviews on Pixar film series"}
 pub_pix_mix %>% ggplot(aes(
   x = series,
   y = rotten_tomatoes,
@@ -209,7 +209,7 @@ pub_pix_mix %>% ggplot(aes(
     y = "Score",
     caption = "Source: Data provided on Wikipedia (https://en.wikipedia.org/wiki/List_of_Pixar_films)",
     fill = "Film"
-  ) 
+  ) + theme_classic()
 ```
 
     
@@ -294,7 +294,7 @@ top_alc <- top_alc %>% group_by(Year) %>%
   )
 ```
 
-```{r graph1, fig.cap="Comparison of wine consumption for each country"}
+```{r graph2, fig.cap="Comparison of alcohol consumption"}
 top_alc %>% ggplot(aes(
   x = Year, 
   y = Percentage, 
